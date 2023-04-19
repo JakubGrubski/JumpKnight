@@ -26,6 +26,11 @@ public class PlayerAutoMove : MonoBehaviour
     private void Move()
     {
         rigid2d.velocity = new Vector2(moveSpeed * Time.deltaTime, rigid2d.velocity.y);
+
+        if (transform.localScale.x < -0.5)
+        {
+            rigid2d.velocity = new Vector2(moveSpeed * -1 * Time.deltaTime, rigid2d.velocity.y);
+        }
     }
 
     private void Jump()
