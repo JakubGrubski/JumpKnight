@@ -5,23 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagement : MonoBehaviour
 {
-   public static SceneManagement instance;
+   public static SceneManagement Instance;
    [HideInInspector] public string currentScene;
 
 
     private void Awake()
     {
         currentScene = SceneManager.GetActiveScene().name.ToString();
-        Debug.Log(currentScene);
-        DontDestroyOnLoad(gameObject);
-        
 
-        if (SceneManagement.instance != null)
+        DontDestroyOnLoad(gameObject);
+
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
 
-        instance = this;
     }
     public void LoadScene(string sceneName)
     {
@@ -30,6 +33,6 @@ public class SceneManagement : MonoBehaviour
 
     public void ReloadScene()
     {
-        SceneManagement.instance.LoadScene(currentScene) ;
+        SceneManagement.Instance.LoadScene(currentScene) ;
     }
 }
