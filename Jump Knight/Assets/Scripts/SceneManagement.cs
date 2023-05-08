@@ -11,8 +11,6 @@ public class SceneManagement : MonoBehaviour
 
     private void Awake()
     {
-        currentScene = SceneManager.GetActiveScene().name.ToString();
-
         DontDestroyOnLoad(gameObject);
 
         if (Instance == null)
@@ -33,6 +31,12 @@ public class SceneManagement : MonoBehaviour
 
     public void ReloadScene()
     {
-        SceneManagement.Instance.LoadScene(currentScene) ;
+        currentScene = SceneManager.GetActiveScene().name.ToString();
+        SceneManager.LoadScene(currentScene);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }
