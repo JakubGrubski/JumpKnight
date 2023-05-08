@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class LevelEnd : MonoBehaviour
 {
-
+    public Canvas winCanvas;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Finish"))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            //level completed screen
-            //scene manager next level
-            //scene manager main menu
-            //scene manager restart level
+            winCanvas.gameObject.SetActive(true);
         }
     }
 }

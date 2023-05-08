@@ -4,27 +4,47 @@ using UnityEngine;
 
 public class PlayerAutoMove : MonoBehaviour
 {
+    [Header("Movement Variables")]
     public float moveSpeed;
     public float jumpHeight;
-
-    public bool isGrounded;
-
     public Rigidbody2D rigid2d;
 
+    [Header("Booleans")]
+    public bool stopMotion;
+    public bool isEnemy;
+
+    [Header("Ground Check Variables")]
+    public bool isGrounded;
     [SerializeField] Transform groundCheck;
     [SerializeField] float groundCheckRadius;
     [SerializeField] LayerMask groundMask;
 
+
+    private void Update()
+    {
+        CheckInput();
+    }
+
     void FixedUpdate()
     {
         Move();
-        Jump();
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundMask);
     }
 
-    private void Move()
+    public void CheckInput()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Jump();
+        }
+    }
+
+    public void Move()
+    {
+        if (stopMotion)
+            return;
+
         rigid2d.velocity = new Vector2(moveSpeed * Time.deltaTime, rigid2d.velocity.y);
 
         if (transform.localScale.x < -0.5)
@@ -35,12 +55,19 @@ public class PlayerAutoMove : MonoBehaviour
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isEnemy)
+            return;
+
+        if (isGrounded)
         {
-            if (isGrounded)
-            {
-                rigid2d.AddForce(new Vector2(0, jumpHeight * Time.deltaTime), ForceMode2D.Impulse);
-            }
+          rigid2d.AddForce(new Vector2(0, jumpHeight * Time.deltaTime), ForceMode2D.Impulse);
         }
+        
+    }
+
+    public void StopMotion()
+    {
+        stopMotion = true;
+        rigid2d.velocity = new Vector2(0,0);
     }
 }
