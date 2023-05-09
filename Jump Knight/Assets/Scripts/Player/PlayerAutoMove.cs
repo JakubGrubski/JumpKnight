@@ -20,21 +20,16 @@ public class PlayerAutoMove : MonoBehaviour
     [SerializeField] LayerMask groundMask;
 
 
-    private void Update()
-    {
-        CheckInput();
-    }
-
     void FixedUpdate()
     {
         Move();
-
+        CheckInput();
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundMask);
     }
 
     public void CheckInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             Jump();
         }
